@@ -22,7 +22,7 @@ public class Application {
 			
 		DbUtil dbutil=context.getBean(DbUtil.class);
 		dbutil.getConnection();
-		bankAccountController.getBalance(12344);
+		System.out.println(bankAccountController.getBalance(12344));
 	}
 
 }

@@ -12,9 +12,9 @@ import org.springframework.stereotype.Component;
 @PropertySource("classpath:config.properties")
 public class DbUtil {
 	
-//	
-//	  @Value("${forname}") 
-//	  private String  propertyField;
+	
+	  @Value("${forname}") 
+	  private String  forName;
 	  @Value("${database}") 
 	  private String dburl;
 	  @Value("${dbuser}")
@@ -27,7 +27,7 @@ public class DbUtil {
 	public Connection getConnection() {
 		Connection connection = null;
 		try {
-			Class.forName("com.mysql.cj.jdbc.Driver");
+			Class.forName(forName);
 			connection = DriverManager.getConnection(dburl, username, password);
 			System.out.println(dburl+"     "+password);
 		}

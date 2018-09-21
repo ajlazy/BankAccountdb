@@ -1,5 +1,8 @@
 package com.capgemini.bankapp.service;
 
+import java.util.List;
+
+import com.capgemini.bankapp.entities.BankAccount;
 import com.capgemini.bankapp.exception.LowBalanceException;
 
 public interface BankAccountService {
@@ -8,5 +11,11 @@ public interface BankAccountService {
 	public double withdraw(long accountId, double amount) throws LowBalanceException;
 	public double deopsit(long accountId, double amount);
 	public boolean fundTransfer(long fromAccount, long toAccount, double balance) throws LowBalanceException;
-
+	public boolean addBankAccount(BankAccount account);
+	public BankAccount findBankAccountById(long accountId);
+	public List<BankAccount> findAllBankAccounts();
+	public BankAccount updateBankAccount(BankAccount account);
+	public boolean deleteABankAccount(long accountId);
 }
+	
+

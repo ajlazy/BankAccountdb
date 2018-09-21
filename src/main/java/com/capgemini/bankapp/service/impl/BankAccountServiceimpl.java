@@ -4,10 +4,12 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.capgemini.bankapp.entities.BankAccount;
 import com.capgemini.bankapp.exception.LowBalanceException;
 import com.capgemini.bankapp.repository.BankAaccountRepository;
 import com.capgemini.bankapp.service.BankAccountService;
@@ -67,22 +69,58 @@ public class BankAccountServiceimpl implements BankAccountService {
 
 	@Override
 	public boolean fundTransfer(long fromAcc, long toAcc, double amount) throws LowBalanceException {
-		String query = "select accountId from customers where accountId =?";
-		try (Connection connection = dbutil.getConnection();
-				PreparedStatement statement = connection.prepareStatement(query)) {
-			statement.setInt(1, (int) toAcc);
-			ResultSet result = statement.executeQuery();
-			if (result.next()) {
-				if (withdraw(fromAcc, amount) >= 0) {
-					deopsit(toAcc, amount);
-					return true;
+		 double balance = withdraw(fromAcc, amount);
+			if (balance != -1) {
+				if (deopsit(toAcc, amount) == -1) {
+					deopsit(fromAcc, amount);
+					return false;
 				}
+				return true;
 			}
+			return false;
+	}
 
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-		return false;
+
+
+
+	@Override
+	public boolean addBankAccount(BankAccount account) {
+		return repository.addBankAccount(account);
+	}
+
+
+
+
+	@Override
+	public BankAccount findBankAccountById(long accountId) {
+
+		return repository.findBankAccountById(accountId);
+	}
+
+
+
+
+	@Override
+	public List<BankAccount> findAllBankAccounts() {
+
+	return repository.findAllBankAccounts();
+	}
+
+
+
+
+	@Override
+	public BankAccount updateBankAccount(BankAccount account) {
+		
+		return repository.updateBankAccount(account);
+	}
+
+
+
+
+	@Override
+	public boolean deleteABankAccount(long accountId) {
+		return repository.deleteABankAccount(accountId);
 	}
 
 }

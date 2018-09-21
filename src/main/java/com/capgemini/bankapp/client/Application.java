@@ -7,6 +7,7 @@ import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 import com.capgemini.bankapp.config.AppConfig;
 import com.capgemini.bankapp.controller.BankAccountController;
+import com.capgemini.bankapp.entities.BankAccount;
 import com.capgemini.bankapp.exception.LowBalanceException;
 import com.capgemini.bankapp.service.BankAccountService;
 import com.capgemini.bankapp.service.impl.BankAccountServiceimpl;
@@ -22,7 +23,14 @@ public class Application {
 			
 		DbUtil dbutil=context.getBean(DbUtil.class);
 		dbutil.getConnection();
-		System.out.println(bankAccountController.getBalance(12344));
+		System.out.println("hiiiiiiiiiiiii");
+		System.out.println(bankAccountController.getBalance(12345));
+		System.out.println(bankAccountController.findAllBankAccounts());
+		System.out.println(bankAccountController.deposit(12345, 5000));
+		//bankAccountController.deleteABankAccount(12344);
+		BankAccount account=new BankAccount(12345, "AKSHIT JAIN", "SAVINGS", 100);
+		bankAccountController.updateBankAccount(account);
+		bankAccountController.fundTransfer(12343,12345 , 20000);
 	}
 
 }
